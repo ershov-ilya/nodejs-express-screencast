@@ -1,13 +1,14 @@
 ﻿var express = require('express')
 var http = require('http')
 var path = require('path')
+var config = require('./config')
 var errorhandler = require('errorhandler')
 
 var app = express()
-app.set('port', 3000)
+//app.set('port', 3000)
 
-http.createServer(app).listen(app.get('port'), function(){
-    console.log('Server started at port: '+app.get('port'))
+http.createServer(app).listen(config.get('port'), function(){
+    console.log('Server started at port: '+config.get('port'))
 })
 
 
@@ -40,9 +41,10 @@ app.use(function(req, res){
     res.status(404).send("Page not found")
 })
 
-// Функция с 4 параметрами - обработчик ошибок
 app.use(errorhandler())
-/*app.use(function onerror(err, req, res, next){
+/*
+// Функция с 4 параметрами - обработчик ошибок
+app.use(function onerror(err, req, res, next){
     if(app.get('env') == 'development'){
     } else {
         res.status(500).send("Server error")
