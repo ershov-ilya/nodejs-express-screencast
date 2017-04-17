@@ -9,6 +9,8 @@ http.createServer(app).listen(app.get('port'), function(){
     console.log('Server started at port: '+app.get('port'))
 })
 
+
+// Простейшая маршрутизация
 app.use(function(req, res, next){
     if(req.url == '/'){
         res.end("Hello")
@@ -23,4 +25,21 @@ app.use(function(req, res, next){
     } else {
         next()
     }
+})
+
+app.use(function(req, res, next){
+    if(req.url == '/error'){
+        next(new Error("woops, denied"))
+    } else {
+        next()
+    }
+})
+
+app.use(function(req, res){
+    res.send(404, "Page not found")
+})
+
+// Функция с 4 параметрами - обработчик ошибок
+app.use(function(err, req, res, next){
+    res.send(500, "Server error")
 })
