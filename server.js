@@ -1,6 +1,7 @@
 ﻿var express = require('express')
 var http = require('http')
 var path = require('path')
+var errorhandler = require('errorhandler')
 
 var app = express()
 app.set('port', 3000)
@@ -36,10 +37,15 @@ app.use(function(req, res, next){
 })
 
 app.use(function(req, res){
-    res.send(404, "Page not found")
+    res.status(404).send("Page not found")
 })
 
 // Функция с 4 параметрами - обработчик ошибок
-app.use(function(err, req, res, next){
-    res.send(500, "Server error")
+app.use(errorhandler())
+/*app.use(function onerror(err, req, res, next){
+    if(app.get('env') == 'development'){
+    } else {
+        res.status(500).send("Server error")
+    }
 })
+*/
